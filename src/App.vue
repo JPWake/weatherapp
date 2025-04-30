@@ -1,16 +1,17 @@
 <template>
 
     <HomeView />
-    <Barchart />
+    <div id="graph"><LineGraph /></div>
+
 </template>
 
 <script>
 import HomeView from "./views/HomeView.vue";
-import Barchart from "./components/Barchart.vue";
+import LineGraph from "./components/LineGraph.vue";
 
 export default {
   name: 'App',
-  components: { HomeView, Barchart}
+  components: { HomeView, LineGraph}
 };
 
 </script>
@@ -28,6 +29,14 @@ body {
   font-family: 'montserrat', sans-serif;
 }
 
+
+#graph{
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+
 #app {
   background-image: url('./assets/cold-bg.jpg');
   background-size: cover;
@@ -39,7 +48,7 @@ body {
   background-image: url('./assets/warm-bg.jpg');
 }
 
-main {
+main  {
   min-height: 100vh;
   padding: 25px;
   background-image: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.75));

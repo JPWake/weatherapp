@@ -7,23 +7,36 @@
         class="search-bar" 
         placeholder="  Search city to 'vue' the weather..."
         v-model="query"
-        @keypress="fetchWeather"
+        @keyup.enter="fetchWeather"
         />
-        <button id="Celcius" @click="fetchCelcius">Celcius</button>
-        <button id="Fahrenheit" @click="fetchFahrenheit">Fahrenheit</button>
-      </div>
-      <BarChart />
-      <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
-        <div class="location-box">
-          <div class="location">{{ weather.name }}, {{ weather.state }}, {{ weather.sys.country }}</div>
-          <div class="date">{{ dateBuilder() }}</div>
-        </div>
+        
 
-        <div class="weather-box">
-          <div class="temp">{{ Math.round(weather.main.temp) }}°F</div>
+        
+      </div>
+
+      <div class="weather-wrap" v-if="typeof weather.main != 'undefined'" >
+        <div class="location-box">
+          <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
+          <div class="date">{{ dateBuilder() }}</div>
+          <br>
+          <div class="date">
+            High: {{ Math.round(weather.main.temp_max) }}°F |
+            Low:  {{ Math.round(weather.main.temp_min) }}°F</div>
+        </div>
+        <div v-for="day in forecastData" :key="day.dt">
+           {{ Math.round(day.temp.max) }} </div>
+
+        <div class="weather-box" >
+          <div class="temp">{{ Math.round(weather.main.temp) }}°F 
+          </div>
           <div class="weather">{{ weather.weather[0].main }}</div>
+
+          
         </div>
       </div>
+
+  
+
       
     </main>
   </div>
@@ -50,7 +63,6 @@ export default {
 
 
   methods: {
-
     fetchWeather (e) {
     if (e.key == "Enter") {
       fetch(`${this.url_base}weather?q=${this.query}&units=imperial&APPID=${this.api_key}`)
@@ -60,19 +72,6 @@ export default {
     }
   },
 
-  fetchCelcius () {
-    fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
-        .then(res => {
-          return res.json();
-        }).then(this.setResults);
-  },
-
-  fetchFahrenheit () {
-      fetch(`${this.url_base}weather?q=${this.query}&units=imperial&APPID=${this.api_key}`)
-        .then(res => {
-          return res.json();
-        }).then(this.setResults);
-    },
 
 
   setResults (results) {
